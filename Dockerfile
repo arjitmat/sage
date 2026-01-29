@@ -8,11 +8,20 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install all dependencies (including dev dependencies for build)
+RUN npm install
 
-# Copy app files
-COPY . .
+# Copy all necessary files for Next.js build
+COPY next.config.ts ./
+COPY tsconfig.json ./
+COPY tailwind.config.ts ./
+COPY postcss.config.mjs ./
+COPY app ./app
+COPY components ./components
+COPY lib ./lib
+COPY styles ./styles
+COPY types ./types
+COPY public ./public
 
 # Build Next.js app
 RUN npm run build
@@ -21,7 +30,7 @@ RUN npm run build
 # Final stage - Python base with Node.js
 FROM python:3.11-slim
 
-# Install Node.js
+# Install Node.js and other dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -37,32 +46,38 @@ COPY backend/ ./backend/
 # Install Python dependencies
 RUN pip install --no-cache-dir -r backend/requirements.txt
 
-# Copy Next.js build from frontend-builder
+# Copy Next.js build and necessary files from frontend-builder
 COPY --from=frontend-builder /app/.next ./.next
 COPY --from=frontend-builder /app/public ./public
 COPY --from=frontend-builder /app/package*.json ./
 COPY --from=frontend-builder /app/node_modules ./node_modules
+COPY --from=frontend-builder /app/next.config.ts ./
 
 # Create uploads directory
 RUN mkdir -p backend/uploads backend/results
 
-# Expose ports
+# Expose port 7860 for Hugging Face Spaces
 EXPOSE 7860
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=7860
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_API_URL=http://localhost:8000
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "Starting Sage AI..."\n\
 cd /app/backend && python main.py &\n\
 BACKEND_PID=$!\n\
+echo "Backend started on PID: $BACKEND_PID"\n\
+sleep 5\n\
 cd /app && npm start &\n\
 FRONTEND_PID=$!\n\
-echo "Backend PID: $BACKEND_PID"\n\
-echo "Frontend PID: $FRONTEND_PID"\n\
-wait $BACKEND_PID $FRONTEND_PID\n\
+echo "Frontend started on PID: $FRONTEND_PID"\n\
+wait -n\n\
+exit $?\n\
 ' > /app/start.sh && chmod +x /app/start.sh
 
 CMD ["/app/start.sh"]
