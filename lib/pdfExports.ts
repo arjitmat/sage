@@ -6,7 +6,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import JSZip from 'jszip';
 import html2canvas from 'html2canvas';
-import { ProcessResponse } from '@/types';
+import { ProcessResponse, Summary } from '@/types';
 
 const COLORS = {
   primary: [122, 155, 118], // sage
@@ -49,25 +49,106 @@ const addFooter = (doc: jsPDF, pageNumber: number) => {
 /**
  * Export Summary as PDF
  */
-export const exportSummaryAsPDF = (summary: string, documentId: string) => {
+export const exportSummaryAsPDF = (summary: Summary, documentId: string) => {
   const doc = new jsPDF();
   addHeader(doc, 'Document Summary');
 
-  doc.setFontSize(11);
-  const lines = doc.splitTextToSize(summary, 180);
   let y = 35;
+  let pageNum = 1;
 
-  lines.forEach((line: string) => {
-    if (y > 270) {
+  // Key Findings Section
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.primary);
+  doc.text('Key Findings', 15, y);
+  y += 10;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  summary.key_findings.forEach((finding) => {
+    if (y > 260) {
+      addFooter(doc, pageNum);
       doc.addPage();
       addHeader(doc, 'Document Summary');
       y = 35;
+      pageNum++;
     }
-    doc.text(line, 15, y);
-    y += 7;
+    const lines = doc.splitTextToSize(`• ${finding}`, 175);
+    lines.forEach((line: string) => {
+      doc.text(line, 20, y);
+      y += 6;
+    });
+    y += 4;
   });
 
-  addFooter(doc, 1);
+  y += 8;
+
+  // Main Arguments Section
+  if (y > 220) {
+    addFooter(doc, pageNum);
+    doc.addPage();
+    addHeader(doc, 'Document Summary');
+    y = 35;
+    pageNum++;
+  }
+
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.primary);
+  doc.text('Main Arguments', 15, y);
+  y += 10;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  const argLines = doc.splitTextToSize(summary.main_arguments, 180);
+  argLines.forEach((line: string) => {
+    if (y > 270) {
+      addFooter(doc, pageNum);
+      doc.addPage();
+      addHeader(doc, 'Document Summary');
+      y = 35;
+      pageNum++;
+    }
+    doc.text(line, 15, y);
+    y += 6;
+  });
+
+  y += 8;
+
+  // Conclusions Section
+  if (y > 220) {
+    addFooter(doc, pageNum);
+    doc.addPage();
+    addHeader(doc, 'Document Summary');
+    y = 35;
+    pageNum++;
+  }
+
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.primary);
+  doc.text('Conclusions', 15, y);
+  y += 10;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  const conclusionLines = doc.splitTextToSize(summary.conclusions, 180);
+  conclusionLines.forEach((line: string) => {
+    if (y > 270) {
+      addFooter(doc, pageNum);
+      doc.addPage();
+      addHeader(doc, 'Document Summary');
+      y = 35;
+      pageNum++;
+    }
+    doc.text(line, 15, y);
+    y += 6;
+  });
+
+  addFooter(doc, pageNum);
   const timestamp = new Date().toISOString().split('T')[0];
   doc.save(`sage-summary-${documentId}-${timestamp}.pdf`);
 };
@@ -485,19 +566,102 @@ export const downloadAllAsZip = async (results: ProcessResponse, documentId: str
     if (results.results?.summary) {
       const doc = new jsPDF();
       addHeader(doc, 'Document Summary');
-      doc.setFontSize(11);
-      const lines = doc.splitTextToSize(results.results.summary, 180);
       let y = 35;
-      lines.forEach((line: string) => {
-        if (y > 270) {
+      let pageNum = 1;
+
+      // Key Findings
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...COLORS.primary);
+      doc.text('Key Findings', 15, y);
+      y += 10;
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...COLORS.text);
+      results.results.summary.key_findings.forEach((finding) => {
+        if (y > 260) {
+          addFooter(doc, pageNum);
           doc.addPage();
           addHeader(doc, 'Document Summary');
           y = 35;
+          pageNum++;
+        }
+        const lines = doc.splitTextToSize(`• ${finding}`, 175);
+        lines.forEach((line: string) => {
+          doc.text(line, 20, y);
+          y += 6;
+        });
+        y += 4;
+      });
+
+      y += 8;
+
+      // Main Arguments
+      if (y > 220) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        addHeader(doc, 'Document Summary');
+        y = 35;
+        pageNum++;
+      }
+
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...COLORS.primary);
+      doc.text('Main Arguments', 15, y);
+      y += 10;
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...COLORS.text);
+      const argLines = doc.splitTextToSize(results.results.summary.main_arguments, 180);
+      argLines.forEach((line: string) => {
+        if (y > 270) {
+          addFooter(doc, pageNum);
+          doc.addPage();
+          addHeader(doc, 'Document Summary');
+          y = 35;
+          pageNum++;
         }
         doc.text(line, 15, y);
-        y += 7;
+        y += 6;
       });
-      addFooter(doc, 1);
+
+      y += 8;
+
+      // Conclusions
+      if (y > 220) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        addHeader(doc, 'Document Summary');
+        y = 35;
+        pageNum++;
+      }
+
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...COLORS.primary);
+      doc.text('Conclusions', 15, y);
+      y += 10;
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...COLORS.text);
+      const conclusionLines = doc.splitTextToSize(results.results.summary.conclusions, 180);
+      conclusionLines.forEach((line: string) => {
+        if (y > 270) {
+          addFooter(doc, pageNum);
+          doc.addPage();
+          addHeader(doc, 'Document Summary');
+          y = 35;
+          pageNum++;
+        }
+        doc.text(line, 15, y);
+        y += 6;
+      });
+
+      addFooter(doc, pageNum);
       zip.file(`1-summary.pdf`, doc.output('blob'));
     }
 
