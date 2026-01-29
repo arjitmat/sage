@@ -1,0 +1,33 @@
+# Node
+node_modules
+npm-debug.log
+.next
+out
+
+# Python
+backend/venv
+backend/__pycache__
+backend/*.pyc
+backend/uploads
+backend/results
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+*.pem
+
+# Misc
+README.md
+.gitattributes
