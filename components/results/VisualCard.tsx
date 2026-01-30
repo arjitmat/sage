@@ -141,7 +141,7 @@ export const VisualCard = ({ data, onDownload }: VisualCardProps) => {
                         fontSize: '12px'
                       }}
                       labelStyle={{ color: '#2A2820', fontWeight: 'bold' }}
-                      formatter={(value: any, name: string, props: any) => [props.payload.displayValue, 'Value']}
+                      formatter={(value: any, name: string | undefined, props: any) => [props.payload.displayValue, 'Value']}
                     />
                     <Bar dataKey="numericValue" radius={[8, 8, 0, 0]}>
                       {chartData?.map((entry, index) => (
