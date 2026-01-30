@@ -13,7 +13,7 @@ RUN npm install
 
 # Force cache invalidation for source file changes
 # Increment this value to force Docker to rebuild from this point
-ARG CACHEBUST=6
+ARG CACHEBUST=7
 
 # Copy all necessary files for Next.js build
 # Source files copied BEFORE config to invalidate cache when they change

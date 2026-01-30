@@ -5,7 +5,9 @@
 
 import { DocumentResults, ProcessResponse } from '@/types';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// Use empty string to make requests relative to current origin
+// Next.js will proxy /api/* requests to the backend via rewrites
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
 
 export interface UploadResponse {
   document_id: string;
