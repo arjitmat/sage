@@ -42,7 +42,7 @@ export default function LandingPage() {
               </Link>
 
               <Link
-                href="/tech"
+                href="/about"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-sage-500 text-sage-700 dark:text-sage-200 rounded-xl font-heading font-semibold text-lg hover:bg-sage-50 dark:hover:bg-sage-800 transition-all duration-300"
               >
                 Learn More
