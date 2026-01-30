@@ -12,19 +12,20 @@ COPY package*.json ./
 RUN npm install
 
 # Copy all necessary files for Next.js build
-COPY next.config.ts ./
-COPY tsconfig.json ./
-COPY tailwind.config.ts ./
-COPY postcss.config.mjs ./
+# Source files copied BEFORE config to invalidate cache when they change
 COPY app ./app
 COPY components ./components
 COPY lib ./lib
 COPY styles ./styles
 COPY types ./types
 COPY public ./public
+COPY next.config.ts ./
+COPY tsconfig.json ./
+COPY tailwind.config.ts ./
+COPY postcss.config.mjs ./
 
-# Build Next.js app
-RUN npm run build
+# Clean any existing build artifacts and build Next.js app
+RUN rm -rf .next && npm run build
 
 
 # Final stage - Python base with Node.js
@@ -73,7 +74,7 @@ cd /app/backend && python main.py &\n\
 BACKEND_PID=$!\n\
 echo "Backend started on PID: $BACKEND_PID"\n\
 sleep 5\n\
-cd /app && npm start &\n\
+cd /app && npm start -- -p 7860 &\n\
 FRONTEND_PID=$!\n\
 echo "Frontend started on PID: $FRONTEND_PID"\n\
 wait -n\n\
