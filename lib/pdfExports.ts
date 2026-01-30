@@ -9,10 +9,10 @@ import html2canvas from 'html2canvas';
 import { ProcessResponse, Summary } from '@/types';
 
 const COLORS = {
-  primary: [122, 155, 118], // sage
-  secondary: [192, 120, 85], // terracotta
-  text: [42, 40, 32],
-  lightBg: [253, 251, 247],
+  primary: [122, 155, 118] as const, // sage
+  secondary: [192, 120, 85] as const, // terracotta
+  text: [42, 40, 32] as const,
+  lightBg: [253, 251, 247] as const,
 };
 
 /**
