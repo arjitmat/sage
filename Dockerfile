@@ -13,7 +13,7 @@ RUN npm install
 
 # Force cache invalidation for source file changes
 # Increment this value to force Docker to rebuild from this point
-ARG CACHEBUST=5
+ARG CACHEBUST=6
 
 # Copy all necessary files for Next.js build
 # Source files copied BEFORE config to invalidate cache when they change
@@ -33,8 +33,8 @@ RUN echo "=== Verifying copied files ===" && \
     ls -la app/ && \
     echo "=== Checking landing page (app/page.tsx) ===" && \
     grep "Transform Documents" app/page.tsx | head -1 && \
-    echo "=== Checking app page (app/app/page.tsx) ===" && \
-    grep "Transform Your Document" app/app/page.tsx | head -1
+    echo "=== Checking upload page (app/upload/page.tsx) ===" && \
+    grep "Transform Your Document" app/upload/page.tsx | head -1
 
 # Clean any existing build artifacts and build Next.js app
 RUN rm -rf .next && npm run build

@@ -32,7 +32,7 @@ export default function LandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/app"
+                href="/upload"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-terracotta-500 to-terracotta-400 text-white rounded-xl font-heading font-bold text-lg shadow-organic hover:shadow-organic-hover transition-all duration-300 hover:scale-105"
               >
                 Try Sage Free
@@ -141,7 +141,7 @@ export default function LandingPage() {
 
           <div className="text-center mt-12">
             <Link
-              href="/app"
+              href="/upload"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-terracotta-500 to-terracotta-400 text-white rounded-xl font-heading font-bold text-lg shadow-organic hover:shadow-organic-hover transition-all duration-300 hover:scale-105"
             >
               Get Started Now
@@ -188,7 +188,7 @@ export default function LandingPage() {
             Start extracting insights in seconds. No signup required.
           </p>
           <Link
-            href="/app"
+            href="/upload"
             className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white text-sage-700 rounded-xl font-heading font-bold text-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Try Sage Free

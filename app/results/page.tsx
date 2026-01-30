@@ -181,7 +181,7 @@ function ResultsContent() {
               {error || 'The results you are looking for could not be found.'}
             </p>
             <Link
-              href="/app"
+              href="/upload"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-terracotta-500 hover:bg-terracotta-600 text-white rounded-xl font-heading font-semibold transition-all"
             >
               Process New Document
@@ -234,7 +234,7 @@ function ResultsContent() {
             </div>
 
             <Link
-              href="/app"
+              href="/upload"
               className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-sage-500 text-sage-700 dark:text-sage-200 hover:bg-sage-50 dark:hover:bg-sage-800 transition-all font-medium text-sm"
             >
               Process Another Document
