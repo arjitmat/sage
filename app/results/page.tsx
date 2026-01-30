@@ -257,14 +257,10 @@ function ResultsContent() {
         </div>
 
         {/* Sticky Quick Actions */}
-        <div
-          className={`sticky top-[80px] z-30 mb-12 transition-all duration-300 ${
-            scrolled ? 'py-4' : 'py-0'
-          }`}
-        >
+        <div className="sticky top-[80px] z-30 mb-12">
           <div
-            className={`bg-cream-100/90 dark:bg-dark-card/90 backdrop-blur-md border border-sage-500/10 rounded-2xl p-4 shadow-sm flex flex-wrap gap-4 items-center justify-between ${
-              scrolled ? 'shadow-md' : ''
+            className={`bg-cream-100/90 dark:bg-dark-card/90 backdrop-blur-md border border-sage-500/10 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between transition-shadow duration-300 ${
+              scrolled ? 'shadow-md' : 'shadow-sm'
             }`}
           >
             <div className="flex flex-wrap gap-3 w-full md:w-auto">

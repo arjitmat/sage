@@ -256,6 +256,18 @@ export default function AppPage() {
                   </>
                 )}
               </button>
+              {isProcessing && (
+                <div className="mt-6 p-6 bg-sage-50 dark:bg-sage-800/30 border border-sage-200 dark:border-sage-700 rounded-xl">
+                  <p className="text-center text-sage-700 dark:text-sage-200 font-medium mb-2">
+                    🎨 Generating AI-powered insights with visual content...
+                  </p>
+                  <p className="text-center text-sm text-sage-600 dark:text-sage-300">
+                    This may take 5-10 minutes as we create high-quality images and infographics.
+                    <br />
+                    Feel free to keep this tab open and check back shortly!
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
