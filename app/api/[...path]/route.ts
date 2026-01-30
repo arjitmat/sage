@@ -22,7 +22,15 @@ export async function GET(
       // No timeout - let it run
     });
 
-    const data = await response.json();
+    // Try to parse as JSON, fall back to text if it fails
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      const text = await response.text();
+      data = { detail: text || 'Unknown error' };
+    }
+
     return NextResponse.json(data, { status: response.status });
   } catch (error: any) {
     console.error('API proxy error:', error);
@@ -42,19 +50,37 @@ export async function POST(
   const url = `${BACKEND_URL}/api/${pathString}`;
 
   try {
-    const body = await request.json();
+    const contentType = request.headers.get('content-type') || '';
+    let body: any;
+    let headers: HeadersInit = {
+      'Cookie': request.headers.get('cookie') || '',
+    };
+
+    // Handle FormData (file uploads)
+    if (contentType.includes('multipart/form-data')) {
+      body = await request.formData();
+      // Don't set Content-Type - let fetch set it with boundary
+    } else {
+      // Handle JSON
+      body = JSON.stringify(await request.json());
+      headers['Content-Type'] = 'application/json';
+    }
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': request.headers.get('cookie') || '',
-      },
-      body: JSON.stringify(body),
+      headers,
+      body,
       // No timeout - let it run as long as needed
     });
 
-    const data = await response.json();
+    // Try to parse as JSON, fall back to text if it fails
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      const text = await response.text();
+      data = { detail: text || 'Unknown error' };
+    }
 
     // Forward cookies from backend to frontend
     const setCookieHeader = response.headers.get('set-cookie');
@@ -92,7 +118,15 @@ export async function DELETE(
       },
     });
 
-    const data = await response.json();
+    // Try to parse as JSON, fall back to text if it fails
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      const text = await response.text();
+      data = { detail: text || 'Unknown error' };
+    }
+
     return NextResponse.json(data, { status: response.status });
   } catch (error: any) {
     console.error('API proxy error:', error);
