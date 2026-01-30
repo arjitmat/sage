@@ -13,7 +13,7 @@ RUN npm install
 
 # Force cache invalidation for source file changes
 # Increment this value to force Docker to rebuild from this point
-ARG CACHEBUST=7
+ARG CACHEBUST=8
 
 # Copy all necessary files for Next.js build
 # Source files copied BEFORE config to invalidate cache when they change
@@ -76,7 +76,7 @@ EXPOSE 7860
 ENV NODE_ENV=production
 ENV PORT=7860
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NEXT_PUBLIC_API_URL=http://localhost:8000
+ENV BACKEND_URL=http://localhost:8000
 
 # Create startup script
 RUN echo '#!/bin/bash\n\

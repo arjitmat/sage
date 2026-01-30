@@ -191,7 +191,8 @@ class OutputGenerators:
                         "properties": {
                             "point": {"type": "string"},
                             "explanation": {"type": "string"}
-                        }
+                        },
+                        "required": ["point", "explanation"]
                     }
                 },
                 "cons": {
@@ -201,7 +202,8 @@ class OutputGenerators:
                         "properties": {
                             "point": {"type": "string"},
                             "explanation": {"type": "string"}
-                        }
+                        },
+                        "required": ["point", "explanation"]
                     }
                 },
                 "balanced_perspective": {"type": "string"}
