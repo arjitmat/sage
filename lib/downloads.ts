@@ -172,7 +172,14 @@ export const resultsToMarkdown = (results: ProcessResponse): string => {
 
   // Summary
   if (results.results?.summary) {
-    markdown += `## Summary\n\n${results.results.summary}\n\n---\n\n`;
+    const summary = results.results.summary;
+    markdown += `## Summary\n\n`;
+    markdown += `### Key Findings\n\n`;
+    summary.key_findings.forEach((finding: string) => {
+      markdown += `- ${finding}\n`;
+    });
+    markdown += `\n### Main Arguments\n\n${summary.main_arguments}\n\n`;
+    markdown += `### Conclusions\n\n${summary.conclusions}\n\n---\n\n`;
   }
 
   // FAQs
@@ -202,16 +209,19 @@ export const resultsToMarkdown = (results: ProcessResponse): string => {
   // Debate
   if (results.results?.debate) {
     const debate = results.results.debate;
-    markdown += `## Debate Topic: ${debate.topic}\n\n`;
-    markdown += `### Side A: ${debate.side_a.position}\n\n`;
-    debate.side_a.arguments.forEach((arg: string) => {
-      markdown += `- ${arg}\n`;
+    markdown += `## Multi-Perspective Analysis: ${debate.topic}\n\n`;
+    markdown += `### Supporting Arguments\n\n`;
+    debate.pros.forEach((pro: any) => {
+      markdown += `**${pro.point}**\n${pro.explanation}\n\n`;
     });
-    markdown += `\n### Side B: ${debate.side_b.position}\n\n`;
-    debate.side_b.arguments.forEach((arg: string) => {
-      markdown += `- ${arg}\n`;
+    markdown += `\n### Challenging Arguments\n\n`;
+    debate.cons.forEach((con: any) => {
+      markdown += `**${con.point}**\n${con.explanation}\n\n`;
     });
-    markdown += `\n---\n\n`;
+    if (debate.balanced_perspective) {
+      markdown += `\n### Balanced Perspective\n\n${debate.balanced_perspective}\n\n`;
+    }
+    markdown += `---\n\n`;
   }
 
   // Slides
