@@ -7,10 +7,11 @@ export const maxDuration = 300;
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const path = params.path.join('/');
-  const url = `${BACKEND_URL}/api/${path}${request.nextUrl.search}`;
+  const { path } = await context.params;
+  const pathString = path.join('/');
+  const url = `${BACKEND_URL}/api/${pathString}${request.nextUrl.search}`;
 
   try {
     const response = await fetch(url, {
@@ -34,10 +35,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const path = params.path.join('/');
-  const url = `${BACKEND_URL}/api/${path}`;
+  const { path } = await context.params;
+  const pathString = path.join('/');
+  const url = `${BACKEND_URL}/api/${pathString}`;
 
   try {
     const body = await request.json();
@@ -75,11 +77,12 @@ export async function POST(
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
+  _request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const path = params.path.join('/');
-  const url = `${BACKEND_URL}/api/${path}`;
+  const { path } = await context.params;
+  const pathString = path.join('/');
+  const url = `${BACKEND_URL}/api/${pathString}`;
 
   try {
     const response = await fetch(url, {
