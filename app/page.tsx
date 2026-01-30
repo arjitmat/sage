@@ -5,7 +5,7 @@ import { FileText, Brain, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-reac
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" data-page="landing">
       <Navbar />
 
       {/* Hero Section */}

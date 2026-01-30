@@ -102,7 +102,7 @@ export default function AppPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" data-page="app">
       <Navbar />
 
       <main className="flex-grow pt-24 pb-20 px-6">
