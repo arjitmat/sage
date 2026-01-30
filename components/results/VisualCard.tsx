@@ -172,7 +172,7 @@ export const VisualCard = ({ data, onDownload }: VisualCardProps) => {
                         fill="#8884d8"
                         paddingAngle={3}
                         dataKey="percentage"
-                        label={({ category, percentage }) => `${category}: ${percentage}%`}
+                        label={(props: any) => `${props.category}: ${props.percentage}%`}
                         labelLine={{ stroke: '#7A9B76', strokeWidth: 1 }}
                       >
                         {data.distribution.map((entry, index) => (
