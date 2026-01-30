@@ -108,12 +108,12 @@ export const downloadAllSlides = async (
 ) => {
   for (let i = 0; i < slides.length; i++) {
     const slide = slides[i];
-    if (slide.visual_url) {
+    if (slide.ai_image) {
       // Add delay between downloads to avoid browser blocking
       if (i > 0) {
         await new Promise(resolve => setTimeout(resolve, 200));
       }
-      downloadSlideImage(slide.visual_url, slide.title, slide.id, documentId);
+      downloadSlideImage(slide.ai_image, slide.title, slide.id, documentId);
     }
   }
 };

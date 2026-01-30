@@ -21,6 +21,7 @@ export interface Slide {
   type: 'title' | 'content' | 'chart' | 'stats';
   visual_type?: 'none' | 'bar_chart' | 'pie_chart' | 'stats_grid' | 'icon_grid';
   visual_data?: any;
+  ai_image?: string;
 }
 
 export interface DebatePoint {
