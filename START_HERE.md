@@ -36,11 +36,10 @@ npm run dev
 
 ## 🔑 API Key Configuration
 
-Your Gemini API key is already configured in:
-- `backend/.env`
-- Key: `AIzaSyABYxsQDBmZPiVxiILRhjeuu3QdqbMtdi8`
+Your Gemini API key should be configured in:
+- `backend/.env` (set `GEMINI_API_KEY=your_key_here`)
 
-**⚠️ Important:** This key is for development only. Never commit to public repos.
+**⚠️ Important:** Never hardcode API keys in code or docs. Use environment variables only.
 
 ---
 
